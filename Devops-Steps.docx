@@ -1,3 +1,5 @@
+$ pass data in python ???
+
 گام اول . بالا آوردن خود دیتابیس mesle postgres= ok
 
 version: '3.8'
@@ -20,18 +22,47 @@ volumes:
 
 
 
-گام دوم . کانفرم کردن گام قبلی که آیا میتوانم بهش وصل بشم = ok با dbeaver
+گام دوم . کانفرم کردن گام قبلی که آیا میتوانم بهش وصل بشم = ok با dbeaver ???
 
 
 
 گام سوم . دامی دیتا چطور دیتا توش بریزم 
-گام چهارم کانفرم دامی دیتا 
+ساخت فایل init.sql
+:
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(100),
+    email VARCHAR(100)
+);
 
-گام پنجم بکاپ از دامی دیتا 
+INSERT INTO users (name, email) VALUES
+    ('Alice', 'alice@example.com'),
+    ('Bob', 'bob@example.com'),
+    ('Charlie', 'charlie@example.com');
+
+
+گام چهارم کانفرم دامی دیتا = ok :
+
+docker-compose up
+docker exec -it postgres-db psql -U myuser -d mydb
+SELECT * FROM users;
+
+
+گام پنجم بکاپ از دامی دیتا = ok back up from database  :docker exec -t c19936495cb4  pg_dump -U myuser mydb > /file-bakcup.sql
+با پسوند بک آپ: docker exec -t <container_name> pg_dump -U <your_username> -F c <your_database_name> > /path/to/backup/file.backup
+
+
 گام ششم چطور کل دیتابیس رو پاک کنم 
+
+
 گام هفتم چطور بکاپم رو ری استور کنم
+
 گام هشتم کانفرم ری استور
 
+گام اضافه: 
+Automate Backup with a Script = ok
+
+گام اضافه ، کانفرم
 
 https://dbeaver.io/download/
 نرم افزار وصل شدن به دیتابیس های مختلف
