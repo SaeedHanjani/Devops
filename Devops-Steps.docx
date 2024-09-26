@@ -50,12 +50,13 @@ SELECT * FROM users;
 
 گام پنجم بکاپ از دامی دیتا = ok back up from database  :docker exec -t c19936495cb4  pg_dump -U myuser mydb > /file-bakcup.sql
 با پسوند بک آپ: docker exec -t <container_name> pg_dump -U <your_username> -F c <your_database_name> > /path/to/backup/file.backup
+docker-compose exec db pg_dump -U myuser mydb > /home/root/backups/mydb_backup.sql
+
+گام ششم چطور کل دیتابیس رو پاک کنم = ok
 
 
-گام ششم چطور کل دیتابیس رو پاک کنم 
-
-
-گام هفتم چطور بکاپم رو ری استور کنم
+گام هفتم چطور بکاپم رو ری استور کنم = ok
+docker exec -i postgres-db psql -U myuser -d mydb < /home/root/backups/mydb_backup.sql
 
 گام هشتم کانفرم ری استور
 
