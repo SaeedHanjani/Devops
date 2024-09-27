@@ -25,7 +25,7 @@ volumes:
 
 گام دوم . کانفرم کردن گام قبلی که آیا میتوانم بهش وصل بشم = ok با dbeaver ???
 
-
+docker exec -it postgres-db psql -U myuser -d mydb
 
 گام سوم . دامی دیتا چطور دیتا توش بریزم 
 ساخت فایل init.sql
