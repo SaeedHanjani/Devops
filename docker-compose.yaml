@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15-alpine  # Use the version you prefer
+    container_name: postgres_db
+    environment:
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypassword
+      POSTGRES_DB: mydatabase
+    ports:
+      - "5432:5432"  # Map PostgreSQL port
+    volumes:
+      - db_data:/var/lib/postgresql/data  # Persist data
+
+volumes:
+  db_data:
+
+
