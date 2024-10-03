@@ -163,15 +163,18 @@ chmod +x backup.sh
 ```
 crontab -e
 ```
+Add a line to run the backup script daily at a specified time (e.g., 2 AM):
 
+```
+0 2 * * * /path/to/backup.sh
+```
 
+This will automate the backup process.
 
+#### Step 5: Restore the Backup (Optional)
+To restore a backup, you can use the psql command for SQL files or pg_restore for custom-format backups.
 
-$ pass data in python ???
-
-گام اول . بالا آوردن خود دیتابیس mesle postgres= ok
-
-SELECT * FROM users;
+##### Restore from SQL File
 
 
 گام پنجم بکاپ از دامی دیتا = ok back up from database  :docker exec -t c19936495cb4  pg_dump -U myuser mydb > /file-bakcup.sql
