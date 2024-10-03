@@ -8,7 +8,7 @@ To create and run a PostgreSQL database using Docker Compose, you'll need to:
 
 Here’s a step-by-step guide:
 
-## Step 1: Create a docker-compose.yml file
+#### Step 1: Create a docker-compose.yml file
 Create a docker-compose.yml file to define the PostgreSQL service. Here's a simple example:
 
 ```
