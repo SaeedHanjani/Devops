@@ -98,7 +98,7 @@ LIMIT 1;
 
 This will show the most recent row based on the created_at column. Adjust the column name based on your schema.
 
-##### Backing up a PostgreSQL database in Linux is straightforward using the pg_dump command-line utility. Here’s how you can back up a PostgreSQL database:
+## Backing up a PostgreSQL database in Linux is straightforward using the pg_dump command-line utility. Here’s how you can back up a PostgreSQL database:
 
 #### Step 1: Ensure PostgreSQL is Installed
 First, ensure that PostgreSQL and pg_dump are installed. You can check this by running:
