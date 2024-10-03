@@ -117,8 +117,8 @@ Here’s how you can perform a backup:
 ```
 docker exec -t <container_name> pg_dump -U <your_username> <your_database_name> > /path/to/backup/file.sql
 ```
-> <container_name>: The name of your running PostgreSQL container (e.g., postgres-db).
-<your_username>: The PostgreSQL username (e.g., postgres).
+- <container_name>: The name of your running PostgreSQL container (e.g., postgres-db).
+_ <your_username>: The PostgreSQL username (e.g., postgres).
 <your_database_name>: The name of the database you want to back up.
 /path/to/backup/file.sql: The path on your host machine where you want to save the backup file.
 For example:
