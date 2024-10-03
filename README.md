@@ -69,7 +69,7 @@ SELECT * FROM users;
 
 This setup will create a PostgreSQL instance with dummy data in the users table. Let me know if you need further customization!
 
-####To view the latest table (or any table) in DBeaver, follow these steps:
+#### To view the latest table (or any table) in DBeaver, follow these steps:
 
 #### Step 1: Open DBeaver and Connect to Your PostgreSQL Database
 1. Launch DBeaver.
