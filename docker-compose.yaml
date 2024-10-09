@@ -1,13 +1,47 @@
 version: '3.8'
+
 services:
-  db:
+  # PostgreSQL Service
+  postgres:
     image: postgres:latest
-    container_name: postgres-db
+    container_name: postgres_db
+    restart: always
     environment:
-      POSTGRES_USER: myuser
-      POSTGRES_PASSWORD: mypassword
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: adminpassword
       POSTGRES_DB: mydb
-    volumes:
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
     ports:
       - "5432:5432"
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+     # - postgres_data:/var/lib/postgresql/data
+
+  # MongoDB Service
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+  # MySQL Service
+  mysql:
+    image: mysql:latest
+    container_name: mysql_db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: mydb
+      MYSQL_USER: user
+      MYSQL_PASSWORD: userpassword
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+volumes:
+  postgres_data:
+  mongo_data:
+  mysql_data:
