@@ -4,7 +4,7 @@ services:
   # PostgreSQL Service
   postgres:
     image: postgres:latest
-    container_name: postgres_db
+    container_name: postgres-db
     restart: always
     environment:
       POSTGRES_USER: admin
@@ -29,7 +29,7 @@ services:
   # MySQL Service
   mysql:
     image: mysql:latest
-    container_name: mysql_db
+    container_name: mysql-db
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: rootpassword
