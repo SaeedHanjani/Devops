@@ -42,6 +42,6 @@ services:
       - mysql_data:/var/lib/mysql
 
 volumes:
-  init.sql:
+ # init.sql:
   mongo_data:
   mysql_data:
