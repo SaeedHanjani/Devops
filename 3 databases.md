@@ -56,8 +56,7 @@ volumes:
 a. PostgreSQL Initialization (postgres-init.sql)
 Create a file named postgres-init.sql in the same directory as your docker-compose.yml file. This SQL script will be automatically executed when PostgreSQL starts.
 
-sql
-Copy code
+```
 CREATE TABLE employees (
     id SERIAL PRIMARY KEY,
     name VARCHAR(100),
@@ -69,11 +68,11 @@ INSERT INTO employees (name, position, salary) VALUES
 ('John Doe', 'Developer', 60000),
 ('Jane Smith', 'Designer', 55000),
 ('Bob Johnson', 'Manager', 75000);
-b. MongoDB Initialization (mongo-init.js)
+```
+##### b. MongoDB Initialization (mongo-init.js)
 Create a file named mongo-init.js in the same directory. This script will initialize MongoDB with some dummy data.
 
-javascript
-Copy code
+```
 db = db.getSiblingDB('mydb'); // Switch to 'mydb'
 
 db.createCollection('employees');
@@ -83,11 +82,11 @@ db.employees.insertMany([
     { name: "David", position: "Marketing", salary: 45000 },
     { name: "Eva", position: "HR", salary: 50000 }
 ]);
-c. MySQL Initialization (mysql-init.sql)
+```
+##### c. MySQL Initialization (mysql-init.sql)
 Create a file named mysql-init.sql to initialize MySQL with a table and dummy data.
 
-sql
-Copy code
+```
 CREATE TABLE employees (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100),
@@ -99,49 +98,48 @@ INSERT INTO employees (name, position, salary) VALUES
 ('Chris Evans', 'Salesperson', 50000),
 ('Mia Wang', 'Support', 45000),
 ('Jake Miles', 'Engineer', 70000);
-3. Run the Setup
+```
+#### 3. Run the Setup
 Now that everything is set up:
 
-Build and start the Docker containers: Navigate to the directory containing your docker-compose.yml file and run:
+##### 1.Build and start the Docker containers: Navigate to the directory containing your docker-compose.yml file and run:
 
-bash
-Copy code
+```
 docker-compose up -d
-Verify that the data was inserted:
+```
+##### 2.Verify that the data was inserted:
 
 PostgreSQL:
 
 Connect to PostgreSQL using psql:
-bash
-Copy code
+```
 docker exec -it postgres_db psql -U admin -d mydb
 Run:
-sql
-Copy code
+```
 SELECT * FROM employees;
+```
 MongoDB:
 
 Connect to MongoDB using the mongo shell:
-bash
-Copy code
+```
 docker exec -it mongodb mongo
+```
 Switch to mydb and query the data:
-javascript
-Copy code
+```
 use mydb;
 db.employees.find().pretty();
+```
 MySQL:
 
 Connect to MySQL using the MySQL CLI:
-bash
-Copy code
+```
 docker exec -it mysql_db mysql -u user -p
 Run:
-sql
-Copy code
+```
 USE mydb;
 SELECT * FROM employees;
-Summary:
+```
+##### Summary:
 Docker Compose defines services for PostgreSQL, MongoDB, and MySQL.
 Initialization scripts (init.sql for PostgreSQL and MySQL, init.js for MongoDB) are mounted and executed automatically on container startup.
 Dummy data is inserted into the databases as part of the initialization process.
