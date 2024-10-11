@@ -122,7 +122,7 @@ MongoDB:
 
 Connect to MongoDB using the mongo shell:
 ```
-docker exec -it mongodb mongo
+docker exec -it mongodb mongosh
 ```
 Switch to mydb and query the data:
 ```
