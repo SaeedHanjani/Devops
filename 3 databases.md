@@ -114,6 +114,7 @@ PostgreSQL:
 Connect to PostgreSQL using psql:
 ```
 docker exec -it postgres_db psql -U admin -d mydb
+```
 Run:
 ```
 SELECT * FROM employees;
@@ -134,6 +135,7 @@ MySQL:
 Connect to MySQL using the MySQL CLI:
 ```
 docker exec -it mysql_db mysql -u user -p
+```
 Run:
 ```
 USE mydb;
