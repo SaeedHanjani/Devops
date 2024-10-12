@@ -4,8 +4,7 @@ services:
   # PostgreSQL Service
   postgres:
     image: postgres:latest
-    container_name: postgres-db
-    restart: always
+    container_name: postgres_db
     environment:
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: adminpassword
@@ -13,24 +12,23 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
-     # - postgres_data:/var/lib/postgresql/data
+      - ./postgres-init.sql:/docker-entrypoint-initdb.d/init.sql
+    restart: always
 
   # MongoDB Service
   mongodb:
     image: mongo:latest
     container_name: mongodb
-    restart: always
     ports:
       - "27017:27017"
     volumes:
-      - mongo_data:/data/db
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/init.js
+    restart: always
 
   # MySQL Service
   mysql:
     image: mysql:latest
-    container_name: mysql-db
-    restart: always
+    container_name: mysql_db
     environment:
       MYSQL_ROOT_PASSWORD: rootpassword
       MYSQL_DATABASE: mydb
@@ -39,9 +37,10 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      - mysql_data:/var/lib/mysql
+      - ./mysql-init.sql:/docker-entrypoint-initdb.d/init.sql
+    restart: always
 
 volumes:
- # init.sql:
+  postgres_data:
   mongo_data:
   mysql_data:
