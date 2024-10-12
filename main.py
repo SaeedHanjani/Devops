@@ -20,7 +20,7 @@ def restore_postgres():
     click.echo("PostgreSQL restore completed!")
 
 def backup_mongo():
-    os.system(f"docker exec -i $(docker-compose ps -q mongodb) mongosh --archive=mongo_backup.archive")
+    os.system(f"docker exec -i $(docker-compose ps -q mongodb) mongodump --archive=mongo_backup.archive")
     click.echo("MongoDB backup completed!")
 
 def restore_mongo():
