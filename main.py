@@ -1,59 +1,51 @@
+import os
 import click
 import subprocess
-import os
-import datetime
 
-# Default paths
-BACKUP_DIR = "./backups"
-os.makedirs(BACKUP_DIR, exist_ok=True)
+# Helper functions for backup and restore
+def backup_mysql():
+    os.system(f"docker exec -i $(docker-compose ps -q mysql) mysqldump -u root -p rootpassword mydb > mysql_backup.sql")
+    click.echo("MySQL backup completed!")
 
-# Utility functions
-def run_docker_command(command):
-    """Run a command in the PostgreSQL Docker container."""
-    full_command = f"docker-compose exec db {command}"
-    result = subprocess.run(full_command, shell=True, capture_output=True, text=True)
-    if result.returncode != 0:
-        click.echo(f"Error: {result.stderr}")
-    return result
+def restore_mysql():
+    os.system(f"docker exec -i $(docker-compose ps -q mysql) mysql -u root -p rootpassword mydb < mysql_backup.sql")
+    click.echo("MySQL restore completed!")
 
-# Click commands
-@click.group()
-def cli():
-    """CLI tool for PostgreSQL backup and restore"""
-    pass
+def backup_postgres():
+    os.system(f"docker exec -i $(docker-compose ps -q postgres) pg_dump -U admin -d mydb > postgres_backup.sql")
+    click.echo("PostgreSQL backup completed!")
 
-@cli.command()
-@click.option('--filename', default=None, help="Filename to store the backup")
-def backup(filename):
-    """Backup PostgreSQL database to a file"""
-    if filename is None:
-        timestamp = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
-        filename = f"{BACKUP_DIR}/backup_{timestamp}.sql"
+def restore_postgres():
+    os.system(f"docker exec -i $(docker-compose ps -q postgres) psql -U admin -d mydb < postgres_backup.sql")
+    click.echo("PostgreSQL restore completed!")
 
-    command = f"pg_dump -U myuser -d mydatabase > {filename}"
-    result = run_docker_command(command)
+def backup_mongo():
+    os.system(f"docker exec -i $(docker-compose ps -q mongodb) mongosh --archive=mongo_backup.archive")
+    click.echo("MongoDB backup completed!")
 
-    if result.returncode == 0:
-        click.echo(f"Backup successful! Saved as {filename}")
-    else:
-        click.echo(f"Backup failed: {result.stderr}")
+def restore_mongo():
+    os.system(f"docker exec -i $(docker-compose ps -q mongodb) mongorestore --archive=mongo_backup.archive")
+    click.echo("MongoDB restore completed!")
 
-@cli.command()
-@click.argument('filepath')
-def restore(filepath):
-    """Restore PostgreSQL database from a backup file"""
-    if not os.path.exists(filepath):
-        click.echo(f"File {filepath} does not exist.")
-        return
 
-    command = f"psql -U myuser -d mydatabase < {filepath}"
-    result = run_docker_command(command)
+@click.command()
+@click.option('--action', type=click.Choice(['backup', 'restore']), required=True, help="Action to perform: backup or restore.")
+@click.option('--db', type=click.Choice(['mysql', 'postgres', 'mongo']), required=True, help="Database to perform action on.")
+def main(action, db):
+    if action == 'backup':
+        if db == 'mysql':
+            backup_mysql()
+        elif db == 'postgres':
+            backup_postgres()
+        elif db == 'mongo':
+            backup_mongo()
+    elif action == 'restore':
+        if db == 'mysql':
+            restore_mysql()
+        elif db == 'postgres':
+            restore_postgres()
+        elif db == 'mongo':
+            restore_mongo()
 
-    if result.returncode == 0:
-        click.echo(f"Restore successful from {filepath}")
-    else:
-        click.echo(f"Restore failed: {result.stderr}")
-
-# Main entry point
-if __name__ == "__main__":
-    cli()
+if __name__ == '__main__':
+    main()
