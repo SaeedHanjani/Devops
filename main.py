@@ -4,19 +4,19 @@ import subprocess
 
 # Helper functions for backup and restore
 def backup_mysql():
-    os.system(f"docker exec -i $(docker-compose ps -q mysql) mysqldump -u root -p rootpassword mydb > mysql_backup.sql")
+    os.system(f"docker exec -i $(docker-compose ps -q mysql) mysqldump -uroot -prootpassword mydb > mysql_backup.sql")
     click.echo("MySQL backup completed!")
 
 def restore_mysql():
-    os.system(f"docker exec -i $(docker-compose ps -q mysql) mysql -u root -p rootpassword mydb < mysql_backup.sql")
+    os.system(f"docker exec -i $(docker-compose ps -q mysql) mysql -uroot -prootpassword mydb < mysql_backup.sql")
     click.echo("MySQL restore completed!")
 
 def backup_postgres():
-    os.system(f"docker exec -i $(docker-compose ps -q postgres) pg_dump -U admin -d mydb > postgres_backup.sql")
+    os.system(f"docker exec -i $(docker-compose ps -q postgres) pg_dump -Uadmin -d mydb > postgres_backup.sql")
     click.echo("PostgreSQL backup completed!")
 
 def restore_postgres():
-    os.system(f"docker exec -i $(docker-compose ps -q postgres) psql -U admin -d mydb < postgres_backup.sql")
+    os.system(f"docker exec -i $(docker-compose ps -q postgres) psql -Uadmin -d mydb < postgres_backup.sql")
     click.echo("PostgreSQL restore completed!")
 
 def backup_mongo():
