@@ -23,3 +23,9 @@ jobs:
         run: |
           git tag v$(date +'%Y%m%d%H%M%S')
           git push https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/${{ github.repository }} --tags
+          - name: Push Tag
+          env:
+            GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          run: |
+            git push https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/${{ github.repository }} --tags
+        
