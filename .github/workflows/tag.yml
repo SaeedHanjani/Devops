@@ -1,15 +1,25 @@
-name: Create Tag
+name: Tagging Automation
 
 on:
   push:
-    branches:
-      - master
+    tags:
+      - 'v*.*.*'
 
 jobs:
-  build:
+  create-tag:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - uses: Klemensas/action-autotag@stable
-      with:
-        GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Git
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+
+      - name: Create and Push Tag
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: |
+          git tag v$(date +'%Y%m%d%H%M%S')
+          git push https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/${{ github.repository }} --tags
