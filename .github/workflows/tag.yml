@@ -2,8 +2,8 @@ name: Tagging Automation
 
 on:
   push:
-    tags:
-      - 'v*.*.*'
+    branches:
+      - main
 
 jobs:
   create-tag:
@@ -22,7 +22,5 @@ jobs:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
           git tag v$(date +'%Y%m%d%H%M%S')
-          git push https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/${{ github.repository }} --tags
-      - name: Get current git tag
-        uses: devops-actions/action-get-tag@v1.0.3
+          git push https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/${{ github.repository }} HEAD --tags
             
