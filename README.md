@@ -1,4 +1,4 @@
-# Backup and restore Postgres DB in Docker Compose!!!...
+# Backup and restore Postgres DB in Docker Compose!!!...---
 How we can Backup and restore Postgres DB in Docker Compose!
 
 To create and run a PostgreSQL database using Docker Compose, you'll need to:
