@@ -1,1 +1,5 @@
-
+[tool.semantic_release]
+version_variable = "your_package/__init__.py:__version__"
+branch = "main"
+commit_subject = "chore(release): {version}"
+build_command = "pip install build && python -m build"
