@@ -1,4 +1,4 @@
-##### To run PostgreSQL, MongoDB, and MySQL using Docker Compose and insert some dummy data automatically upon container startup, you can use initialization scripts like init.sql for PostgreSQL and MySQL, and init.js for MongoDB. Docker provides a way to execute initialization scripts by placing them in the appropriate directory or using the correct Docker image environment variables.
+###### To run PostgreSQL, MongoDB, and MySQL using Docker Compose and insert some dummy data automatically upon container startup, you can use initialization scripts like init.sql for PostgreSQL and MySQL, and init.js for MongoDB. Docker provides a way to execute initialization scripts by placing them in the appropriate directory or using the correct Docker image environment variables.
 
 #### 1. Create a docker-compose.yml file:
 You will create a docker-compose.yml file that defines the services for PostgreSQL, MongoDB, and MySQL. In addition, you will mount initialization files to each service to automatically insert data.
