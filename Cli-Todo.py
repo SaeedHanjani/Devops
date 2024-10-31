@@ -62,4 +62,4 @@ mycommands.add_command(add_todo)
 mycommands.add_command(delete_todo)
 mycommands.add_command(list_todos)
 
-if __name__ == "__main__":
+# if __name__ == "__main__":
