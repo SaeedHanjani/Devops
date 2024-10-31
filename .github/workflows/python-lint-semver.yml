@@ -27,6 +27,7 @@ jobs:
         python -m pip install --upgrade pip
         pip install flake8 pytest
         pip install python-semantic-release
+        nvm install 'lts/*' && npx semantic-release
     
     # Run linter
     - name: Lint with flake8
