@@ -21,6 +21,9 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
-          git tag v$(date +'%Y%m%d%H%M%S')
-          git push https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/${{ github.repository }} HEAD --tags
-            
+          # git tag v$(date +'%Y%m%d%H%M%S')
+          # git push https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/${{ github.repository }} HEAD --tags
+            git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git tag -a "v${{ github.run_number }}" -m "Release v${{ github.run_number }}"
+          git push origin "v${{ github.run_number }}"
