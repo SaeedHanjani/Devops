@@ -99,7 +99,7 @@ LIMIT 1;
 This will show the most recent row based on the created_at column. Adjust the column name based on your schema.
 
 
-##### Backing up a PostgreSQL database running in a Docker container using Docker Compose is simple with the pg_dump command. You can either run the command from inside the container or from your host machine. Here’s a step-by-step guide on how to back up your PostgreSQL database in Docker Compose:
+#### Backing up a PostgreSQL database running in a Docker container using Docker Compose is simple with the pg_dump command. You can either run the command from inside the container or from your host machine. Here’s a step-by-step guide on how to back up your PostgreSQL database in Docker Compose:
 
 #### Step 1: Identify Your PostgreSQL Container Name
 First, make sure your PostgreSQL container is running by checking the container name. You can find it by running:
