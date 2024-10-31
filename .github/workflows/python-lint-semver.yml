@@ -28,7 +28,7 @@ jobs:
         pip install flake8 pytest
         pip install python-semantic-release
         # nvm install 'lts/*' && npx semantic-release
-        npx -p node@v18-lts -c "npx semantic-release"
+     #   npx -p node@v18-lts -c "npx semantic-release"
     # Run linter
     - name: Lint with flake8
       run: |
