@@ -1,15 +1,17 @@
 import os
 import click
-import subprocess
+
 
 # Helper functions for backup and restore
 def backup_mysql():
     os.system(f"docker exec -i $(docker-compose ps -q mysql) mysqldump -uroot -prootpassword mydb > mysql_backup.sql")
     click.echo("MySQL backup completed!")
 
+
 def restore_mysql():
     os.system(f"docker exec -i $(docker-compose ps -q mysql) mysql -uroot -prootpassword mydb < mysql_backup.sql")
     click.echo("MySQL restore completed!")
+
 
 def backup_postgres():
     os.system(f"docker exec -i $(docker-compose ps -q postgres) pg_dump -Uadmin -d mydb > postgres_backup.sql")
@@ -46,6 +48,7 @@ def main(action, db):
             restore_postgres()
         elif db == 'mongo':
             restore_mongo()
+
 
 if __name__ == '__main__':
     main()
