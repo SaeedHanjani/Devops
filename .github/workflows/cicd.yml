@@ -1,38 +1,40 @@
 name: CI/CD
 
 on:
-    pull_request: { branches: ["*"] }
+    pull_request:
+        branches:
+            - "**"
     push:
         branches:
-            - "+([0-9])?(.{+([0-9]),x}).x"
-            - main
-
+            - "**"
 jobs:
-    build:
-        runs-on: ubuntu-latest
-        steps:
-            - uses: actions/checkout@v3
-            - run: echo Build
-
+# Stage1   linting .... static status check 
     test:
-        needs: build
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v3
-            - run: echo Test
+         - name: Checkout code and setup python and dependencies 
+           uses: actions/checkout@v4
+         - uses: actions/setup-python@v5
+           with:
+            python-version: '3.10'
+            cache: 'pip' # caching pip dependencies
+         - run: pip install -r requirements.txt
+         - name: linting code
+           run: pip install flake8 && pip install pylint 
+         - run: flake8 . --count --select=E9,F63,F7,F82 --
+         - run: pylint
+
 
     release:
         needs: test
         runs-on: ubuntu-latest
-        if: github.event_name == 'push'
         steps:
-            - uses: actions/checkout@v3
-            - uses: actions/setup-node@v3
-              with:
-                  node-version: 17
+         - name: Checkout code
+           uses: actions/checkout@v3
+           with:
+            fetch-depth: 0
 
-            - run: cp .github/.releaserc.json .
-            - run: npm i -g semantic-release @semantic-release/changelog @semantic-release/git
-            - run: semantic-release
-              env:
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+         - name: Python Semantic Release
+           uses: python-semantic-release/python-semantic-release@master
+           with:
+            github_token: ${{ secrets.GITHUB_TOKEN }}
