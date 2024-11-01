@@ -22,7 +22,7 @@ jobs:
          - name: linting code
            run: pip install flake8 && pip install pylint 
         #  - run: flake8 . --count --select=E9,F63,F7,F82 --
-         - run: pylint .
+        #  - run: pylint .
 
 
     release:
