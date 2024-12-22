@@ -1,40 +1,54 @@
-name: CI/CD
+name: CI/CD Pipeline
 
 on:
-    pull_request:
-        branches:
-            - "**"
-    push:
-        branches:
-            - "**"
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
 jobs:
-# Stage1   linting .... static status check 
-    test:
-        runs-on: ubuntu-latest
-        steps:
-         - name: Checkout code and setup python and dependencies 
-           uses: actions/checkout@v4
-         - uses: actions/setup-python@v5
-           with:
-            python-version: '3.10'
-            cache: 'pip' # caching pip dependencies
-         - run: pip install -r requirements.txt
-         - name: linting code
-           run: pip install flake8 && pip install pylint 
-        #  - run: flake8 . --count --select=E9,F63,F7,F82 --
-        #  - run: pylint .
+  build:
+    runs-on: ubuntu-latest
 
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-    release:
-        needs: test
-        runs-on: ubuntu-latest
-        steps:
-         - name: Checkout code
-           uses: actions/checkout@v3
-           with:
-            fetch-depth: 0
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
 
-         - name: Python Semantic Release
-           uses: python-semantic-release/python-semantic-release@master
-           with:
-            github_token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run tests
+        run: |
+          # Replace with your test command
+          pytest
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      - name: Install semantic-release
+        run: npm install -g semantic-release
+
+      - name: Run semantic-release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: semantic-release
