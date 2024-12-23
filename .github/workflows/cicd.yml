@@ -19,7 +19,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.9'
+          python-version: '3.x'
 
       - name: Install dependencies
         run: |
@@ -31,8 +31,31 @@ jobs:
           # Replace with your test command
           pytest
 
+          
+  versioning:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the repository
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Generate semantic version using a Python tool
+      - name: Generate semantic version
+        id: semver
+        run: |
+          pip install bump2version
+          bump2version --dry-run --list patch | grep new_version= | cut -d= -f2 > .version
+          cat .version
+
+      # Save version for later steps
+      - name: Save version
+        id: version
+        run: echo "VERSION=$(cat .version)" >> $GITHUB_ENV
+
+        
   release:
-    needs: build
+    needs: versioning
     runs-on: ubuntu-latest
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
 
@@ -40,15 +63,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '20'
-
-      - name: Install semantic-release
-        run: npm install -g semantic-release
-
-      - name: Run semantic-release
+# Create a GitHub release
+      - name: Create GitHub release
+        uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: semantic-release
+        with:
+          tag_name: "v${{ env.VERSION }}"
+          release_name: "Release v${{ env.VERSION }}"
+          draft: false
+          prerelease: false
