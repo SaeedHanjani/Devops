@@ -26,10 +26,9 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      #- name: Run tests
-       # run: |
-          # Replace with your test command
-        #  pytest
+      - name: Run unit tests
+        run: |
+          python -m unittest discover -s tests
 
   lint-pr:
     runs-on: ubuntu-latest

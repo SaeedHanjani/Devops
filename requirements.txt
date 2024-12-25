@@ -1,0 +1,9 @@
+<<<<<<< HEAD
+click
+pytest
+semantic-version
+=======
+click
+pytest
+semantic-version
+>>>>>>> 95ed79d (Initial commit for DevOps project)
