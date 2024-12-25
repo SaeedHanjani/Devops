@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-# tests/test_sample.py
-=======
 import unittest
 from unittest.mock import patch
 from main import backup_mysql, restore_mysql, backup_postgres, restore_postgres, backup_mongo, restore_mongo
@@ -51,7 +48,6 @@ class TestBackupRestore(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
->>>>>>> 95ed79d (Initial commit for DevOps project)
 
 import unittest
 from src.sample import add  # Adjust the import based on your project structure
