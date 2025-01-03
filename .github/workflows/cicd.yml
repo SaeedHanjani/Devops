@@ -3,10 +3,10 @@ name: CI/CD Pipeline
 on:
   push:
     branches:
-      - main
+      - "**"
   pull_request:
     branches:
-      - main
+      - "**"
 
 jobs:
   build:
@@ -43,7 +43,7 @@ jobs:
     #  - name: Lint PR title
      #   uses: amannn/action-semantic-pull-request@v5
       #  env:
-       #   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+       #   GITHUB_TOKEN: ${{ secrets.G_TOKEN }}
           
   versioning:
     runs-on: ubuntu-latest
@@ -53,15 +53,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # Generate semantic version using a Python tool
-      - name: Generate semantic version
-        id: semver
-        run: |
-          pip install bump2version
-          bump2version --dry-run --list patch | grep new_version= | cut -d= -f2 > .version
-          cat .version
-
-      # Save version for later steps
+     # Save version for later steps
       - name: Save version
         id: version
         run: echo "VERSION=$(cat .version)" >> $GITHUB_ENV
@@ -73,22 +65,27 @@ jobs:
 
 
         
-#  release:
- #   needs: versioning
-  #  runs-on: ubuntu-latest
-   # if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+  release:
+    needs: versioning
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
 
-    #steps:
-     # - name: Checkout code
-      #  uses: actions/checkout@v3
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-# Create      - name: Send Telegram Alarm on Failure
-      #- name: Create GitHub release
-       # uses: actions/create-release@v1
-        #env:
-         # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        #with:
-         # tag_name: "v${{ env.VERSION }}"
-         # release_name: "Release v${{ env.VERSION }}"
-          #draft: false
-         # prerelease: false
+      - name: Python Semantic Release
+        uses: python-semantic-release/python-semantic-release@master
+        with:
+            github_token: ${{ secrets.GITHUB_TOKEN }}
+ # Create:      
+      - name: Send Telegram Alarm on Failure
+      - name: Create GitHub release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.G_TOKEN }}
+        with:
+          tag_name: "v${{ env.VERSION }}"
+          release_name: "Release v${{ env.VERSION }}"
+          draft: false
+          prerelease: false
