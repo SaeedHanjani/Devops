@@ -31,29 +31,17 @@ jobs:
         run: |
           python telegram_alarm.py "${{ secrets.TELEGRAM_BOT_TOKEN }}" "${{ secrets.TELEGRAM_CHAT_ID }}" "Build completed successfully on branch ${{ github.ref_name }}."
       
-
       - name: Run unit tests
         run: |
           python -m unittest discover -s tests
 
- # lint-pr:
-  #  runs-on: ubuntu-latest
-    
-   # steps:
-    #  - name: Lint PR title
-     #   uses: amannn/action-semantic-pull-request@v5
-      #  env:
-       #   GITHUB_TOKEN: ${{ secrets.G_TOKEN }}
-          
   versioning:
     runs-on: ubuntu-latest
 
     steps:
-      # Checkout the repository
       - name: Checkout code
         uses: actions/checkout@v3
 
-     # Save version for later steps
       - name: Save version
         id: version
         run: echo "VERSION=$(cat .version)" >> $GITHUB_ENV
@@ -63,8 +51,6 @@ jobs:
         run: |
           python telegram_alarm.py "${{ secrets.TELEGRAM_BOT_TOKEN }}" "${{ secrets.TELEGRAM_CHAT_ID }}" "CI/CD pipeline failed on branch ${{ github.ref_name }}."
 
-
-        
   release:
     needs: versioning
     runs-on: ubuntu-latest
@@ -77,9 +63,8 @@ jobs:
       - name: Python Semantic Release
         uses: python-semantic-release/python-semantic-release@master
         with:
-            github_token: ${{ secrets.GITHUB_TOKEN }}
- # Create:      
-      - name: Send Telegram Alarm on Failure
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Create GitHub release
         uses: actions/create-release@v1
         env:
@@ -89,3 +74,8 @@ jobs:
           release_name: "Release v${{ env.VERSION }}"
           draft: false
           prerelease: false
+
+      - name: Send Telegram Alarm on Failure
+        if: failure()
+        run: |
+          python telegram_alarm.py "${{ secrets.TELEGRAM_BOT_TOKEN }}" "${{ secrets.TELEGRAM_CHAT_ID }}" "Release step failed on branch ${{ github.ref_name }}."
