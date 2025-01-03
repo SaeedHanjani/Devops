@@ -51,31 +51,17 @@ jobs:
         run: |
           python telegram_alarm.py "${{ secrets.TELEGRAM_BOT_TOKEN }}" "${{ secrets.TELEGRAM_CHAT_ID }}" "CI/CD pipeline failed on branch ${{ github.ref_name }}."
 
-  release:
-    needs: versioning
-    runs-on: ubuntu-latest
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Python Semantic Release
-        uses: python-semantic-release/python-semantic-release@master
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Create GitHub release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.G_TOKEN }}
-        with:
-          tag_name: "v${{ env.VERSION }}"
-          release_name: "Release v${{ env.VERSION }}"
-          draft: false
-          prerelease: false
-
-      - name: Send Telegram Alarm on Failure
-        if: failure()
-        run: |
-          python telegram_alarm.py "${{ secrets.TELEGRAM_BOT_TOKEN }}" "${{ secrets.TELEGRAM_CHAT_ID }}" "Release step failed on branch ${{ github.ref_name }}."
+          release:
+            needs: test
+            runs-on: ubuntu-latest
+            steps:
+             - name: Checkout code
+               uses: actions/checkout@v3
+               with:
+                fetch-depth: 0
+    
+             - name: Python Semantic Release
+               uses: python-semantic-release/python-semantic-release@master
+               with:
+                github_token: ${{ secrets.GITHUB_TOKEN }}
