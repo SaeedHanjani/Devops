@@ -3,7 +3,6 @@ from unittest.mock import patch
 from main import backup_mysql, restore_mysql, backup_postgres, restore_postgres, backup_mongo, restore_mongo
 
 class TestBackupRestore(unittest.TestCase):
-
     @patch('os.system')
     def test_backup_mysql(self, mock_system):
         backup_mysql()
